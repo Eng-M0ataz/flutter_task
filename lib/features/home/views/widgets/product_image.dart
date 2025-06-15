@@ -5,12 +5,15 @@ class ProductImage extends StatelessWidget {
   final String imageUrl;
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(13),
-        topRight: Radius.circular(13),
+    return AspectRatio(
+      aspectRatio: 3 / 1.9,
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(13),
+          topRight: Radius.circular(13),
+        ),
+        child: Image.network(imageUrl, fit: BoxFit.cover),
       ),
-      child: Image.network(imageUrl),
     );
   }
 }
