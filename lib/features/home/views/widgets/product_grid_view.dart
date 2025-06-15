@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:task_porject/Features/home/data/models/product_model/product_model.dart';
 import 'package:task_porject/Features/home/views/widgets/product_item.dart';
 
 class ProductGridView extends StatelessWidget {
-  const ProductGridView({super.key});
-
+  const ProductGridView({super.key, required this.productsList});
+  final List<ProductModel> productsList;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -15,8 +16,9 @@ class ProductGridView extends StatelessWidget {
           crossAxisCount: 2,
           childAspectRatio: 0.85,
         ),
-        itemCount: 10,
-        itemBuilder: (context, index) => ProductItem(),
+        itemCount: productsList.length,
+        itemBuilder:
+            (context, index) => ProductItem(productModel: productsList[index]),
       ),
     );
   }
