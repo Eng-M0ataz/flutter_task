@@ -4,7 +4,7 @@ class ApiService {
   final Dio _dio;
   ApiService(this._dio);
 
-  Future<List<Map<String, dynamic>>> getReq({
+  Future<List<dynamic>> getReq({
     required String endPoint,
     required String baseUrl,
     int? pageNumber,
