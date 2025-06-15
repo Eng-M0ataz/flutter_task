@@ -13,7 +13,7 @@ class HomeRepoImpl extends HomeRepo {
   @override
   Future<Either<Failure, List<ProductModel>>> getProducts() async {
     try {
-      final List<Map<String, dynamic>> response = await apiService.getReq(
+      final List<dynamic> response = await apiService.getReq(
         endPoint: ApiConstants.productsEndPoint,
         baseUrl: ApiConstants.baseUrl,
       );
@@ -26,7 +26,7 @@ class HomeRepoImpl extends HomeRepo {
     }
   }
 
-  List<ProductModel> parsingData(List<Map<String, dynamic>> response) {
+  List<ProductModel> parsingData(List<dynamic> response) {
     List<ProductModel> products = [];
     for (var i = 0; i < response.length; i++) {
       products.add(ProductModel.fromJsonData(response[i]));
