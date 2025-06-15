@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:task_porject/Features/home/data/models/product_model/product_model.dart';
 import 'package:task_porject/Features/home/views/widgets/add_to_fav_button.dart';
 import 'package:task_porject/Features/home/views/widgets/product_image.dart';
 import 'package:task_porject/Features/home/views/widgets/product_info.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({super.key});
-
+  const ProductItem({super.key, required this.productModel});
+  final ProductModel productModel;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -21,7 +22,11 @@ class ProductItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            children: [ProductImage(), Spacer(), ProductInfo()],
+            children: [
+              ProductImage(imageUrl: productModel.image!),
+              Spacer(),
+              ProductInfo(productModel: productModel),
+            ],
           ),
         ),
         Positioned(right: 10, top: 10, child: AddToFavButton()),
