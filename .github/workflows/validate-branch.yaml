@@ -2,26 +2,28 @@ name: Validate Branch Name
 
 on:
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types: [opened, edited, reopened, synchronize]
 
 jobs:
-  validate-branch:
+  validate-branch-name:
     runs-on: ubuntu-latest
     steps:
-      - name: Validate branch name
+      - name: Validate branch name format
         run: |
-          BRANCH_NAME="${GITHUB_HEAD_REF}"
-          echo "Checking branch name: $BRANCH_NAME"
+          BRANCH_NAME="${{ github.head_ref }}"
+          echo "🔎 Checking branch name: $BRANCH_NAME"
 
           # Regex explanation:
-          # ^(bugfix|hotfix|release)\/
-          # ( [A-Z]+-[0-9]+   for ticket e.g., ECOM-27 )
-          # (-[A-Za-z0-9._-]+)*   for task name parts
+          # ^(fix|release|feat|hotfix|build|test) → allowed types
+          # /[a-z0-9._-]+ → branch name (lowercase, numbers, dash, underscore, dot)
+          # /[A-Z]+-[0-9]+ → JIRA Project + Ticket number (e.g., FECA-123)
           #
-          if [[ ! "$BRANCH_NAME" =~ ^(bugfix|hotfix|release)\/([A-Z]+-[0-9]+)(-[A-Za-z0-9._-]+)*$ ]]; then
+          if [[ ! "$BRANCH_NAME" =~ ^(fix|release|feat|hotfix|build|test)/[a-z0-9._-]+/[A-Z]+-[0-9]+$ ]]; then
             echo "❌ Invalid branch name!"
-            echo "👉 Expected format: bugfix|hotfix|release/{PROJECT-ID-TICKETNUM}-Task-Name"
-            echo "✅ Examples: bugfix/ECOM-27-Fix-Checkout, hotfix/APP-102-Crash-On-Startup, release/1.0.0"
+            echo "👉 Expected format: type/branch-name/JIRA-PROJECT-TICKET"
+            echo "✅ Examples:"
+            echo "   feat/auth/FECA-27"
+            echo "   fix/cart/FECA-101"
             exit 1
           fi
 
